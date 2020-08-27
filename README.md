@@ -70,10 +70,3 @@ The following task is advanced and therefore optional.
 
 * Refer to the [Plotly.js documentation](https://plot.ly/javascript/) when building the plots.
 
-### About the Data
-
-Hulcr, J. et al.(2012) _A Jungle in There: Bacteria in Belly Buttons are Highly Diverse, but Predictable_. Retrieved from: [http://robdunnlab.com/projects/belly-button-biodiversity/results-and-data/](http://robdunnlab.com/projects/belly-button-biodiversity/results-and-data/)
-
-- - -
-
-© 2019 Trilogy Education Services
