@@ -39,9 +39,12 @@ function MetaDataSample(sample) {
 
 
 function ChartBuild(sample) {
+    /*d3.json("samples.json").them((data) => {
+        var samples = data.samples;
+        var resultsArray = samples.filter(s => s.id = sample_id) //sample_id = param fed into ChartBuild
+    })*/
 
     // Build Bubble Chart using sample data  
-
     var bubbleLayout = {
         margin: { t: 0 },
         hovermode: "closest",
@@ -62,21 +65,27 @@ function ChartBuild(sample) {
 
     Plotly.newPlot("bubble", bubbleData, bubbleLayout);
 
-    sample_values = sample.sample_values.slice(0, 10);
-    otu_ids = sample.otu_ids.slice(0, 10);
-    otu_labels = sample.otu_labels.slice(0, 10);
-    var trace1 = {
-        labels: otu_ids,
-        hovertext: otu_labels,
-        hoverinfo: "hovertext",
-        values: sample_values,
-        type: 'pie'
-    };
-    var data = [trace1];
-    var layout = {
-        title: "'Pie' Chart",
-    };
-    Plotly.newPlot("pie", data, layout);
+        sample_values = sample.sample_values
+            otu_ids = sample.otu_ids
+            otu_labels = sample.otu_labels
+             var barChart = {
+                type: 'bar',
+                x: sample.otu_ids.reverse(),
+                y: sample.sample_values.reverse(),
+                text: otu_labels.reverse(),
+                marker: {
+                    color: '#1978B5',
+             },
+                orientation: 'h'
+             };
+         var data = [barChart];
+         var layout = {
+            title: "Top 10 Bacteria Found",
+            showlegend: false,
+            width: 600,
+            height: 400
+          };
+    Plotly.newPlot("bar", data, layout);
 }
 
 
@@ -88,8 +97,11 @@ function Init() {
 
     // Use sample names list to populate select options
 
-    d3.json("/samples.json").then((samplesData) => {
-        samplesData.samples.forEach((sample) => {
+    d3.json("samples.json").then((data) => {
+        console.log(data);
+        //var sampleNames = data.names
+
+        data.samples.forEach((sample) => {
             selector
                 .append("option")
                 .text(sample.id)
@@ -97,13 +109,13 @@ function Init() {
         });
         // Use first sample from list to build initial plots
 
-        const firstSample = samplesData.samples[0];
+        const firstSample = data.samples[0];
         ChartBuild(firstSample);
         MetaDataSample(firstSample);
     });
 }
 
-function ChangeOption(newSample) {
+function optionChanged(newSample) {
 
     // Grab data each time sample is selected
 
